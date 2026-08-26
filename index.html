@@ -133,6 +133,117 @@ footer b{color:#c9a96e}
   </div>
 </div>
 
+<style>
+.trdep-wrap{margin:10px 14px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.15);overflow:hidden;font-size:13px}
+.trdep-hd{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:#172a45;color:#fff;cursor:pointer;flex-wrap:wrap}
+.trdep-title{font-weight:600;font-size:14px}
+.trdep-sub{font-weight:400;opacity:.75;font-size:12px}
+.trdep-meta{display:flex;align-items:center;gap:12px;font-size:11.5px;opacity:.9}
+.trdep-meta a{color:#8ecbff;text-decoration:none}
+.trdep-meta a:hover{text-decoration:underline}
+.trdep-arrow{display:inline-block;transition:transform .15s}
+.trdep-arrow-up{transform:rotate(180deg)}
+.trdep-body{padding:12px 14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.trdep-body.trdep-collapsed{display:none}
+.trdep-note{grid-column:1/-1;font-size:11.5px;color:#777;background:#f7f8fa;border:1px dashed #ddd;border-radius:6px;padding:6px 10px;margin-bottom:2px}
+.trdep-col{border:1px solid #eee;border-radius:6px;padding:8px 10px;background:#fafbfc}
+.trdep-col-wide{grid-column:1/-1}
+.trdep-h{font-size:12.5px;margin:0 0 6px;padding-bottom:4px;border-bottom:2px solid #ddd;display:flex;justify-content:space-between}
+.trdep-h span{color:#888;font-weight:400}
+.trdep-h.red{border-color:#c0392b;color:#c0392b}
+.trdep-h.orange{border-color:#d35400;color:#d35400}
+.trdep-h.green{border-color:#16a085;color:#16a085}
+.trdep-h.blue{border-color:#2980b9;color:#2980b9}
+.trdep-h.purple{border-color:#8e44ad;color:#8e44ad}
+.trdep-h.gray{border-color:#7f8c8d;color:#7f8c8d}
+.trdep-item{display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding:5px 4px;border-bottom:1px solid #f0f0f0;cursor:pointer}
+.trdep-item:last-child{border-bottom:none}
+.trdep-item:hover{background:#f0f4f8}
+.trdep-num{font-weight:600;color:#172a45;font-size:11.5px}
+.trdep-nome{flex:1;min-width:120px;font-size:12px}
+.trdep-badge{font-size:10px;padding:1px 6px;border-radius:10px;background:#eee;color:#555}
+.trdep-badge-overdue{background:#fdecea;color:#c0392b;font-weight:600}
+.trdep-link{font-size:11px;color:#2980b9;text-decoration:none}
+.trdep-link:hover{text-decoration:underline}
+.trdep-empty{font-size:12px;color:#16a085;padding:4px 2px}
+.trdep-alert{font-size:12px;background:#fdecea;color:#8b1e14;border:1px solid #f5c6c0;border-radius:6px;padding:6px 8px;margin-bottom:6px}
+.trdep-collapsed-list{font-size:12px;color:#666}
+.trdep-collapsed-list a{color:#2980b9}
+</style>
+<div class="trdep-wrap" id="trdep-wrap">
+  <div class="trdep-hd" onclick="document.getElementById('trdep-body').classList.toggle('trdep-collapsed');this.querySelector('.trdep-arrow').classList.toggle('trdep-arrow-up')">
+    <div class="trdep-title">🔗 Dependências com a Gabriela <span class="trdep-sub">· Trello · 1Doc | Análises de Projetos</span></div>
+    <div class="trdep-meta">
+      <a href="https://trello.com/b/2iNie8kl/1doc-an%C3%A1lises-de-projetos" target="_blank" rel="noopener" onclick="event.stopPropagation()">Abrir board no Trello ↗</a>
+      <span>Fotografia de 26/08/2026 (ainda não sincroniza sozinho)</span>
+      <span class="trdep-arrow">▼</span>
+    </div>
+  </div>
+  <div class="trdep-body" id="trdep-body">
+    <div class="trdep-note">Clique num item pra localizar o processo aqui embaixo no painel. Isto é uma fotografia manual do que a Gabriela tem no Trello agora — ainda não atualiza sozinho.</div>
+
+    <div class="trdep-col">
+      <h3 class="trdep-h red">📨 Preciso pedir pra Gabi <span>3</span></h3>
+      <div class="trdep-item" onclick="trdepAbrir('7.126/2024')"><span class="trdep-num">7.126/2024</span><span class="trdep-nome">Granbery — Regularização</span><a class="trdep-link" href="https://trello.com/c/MkPsCoeU/50-7126-2024-granbery-regulariza%C3%A7%C3%A3o" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('1.167/2026')"><span class="trdep-num">1.167/2026</span><span class="trdep-nome">Roselaine — Regularização — LT30D</span><a class="trdep-link" href="https://trello.com/c/9aEnN5Lg/20-1167-2026-roselaine-regulariza%C3%A7%C3%A3o-lt30d" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('1.779/2026')"><span class="trdep-num">1.779/2026</span><span class="trdep-nome">Projeto de Construção V&amp;V 67A</span><span class="trdep-badge trdep-badge-overdue">prazo 24/07 vencido</span><a class="trdep-link" href="https://trello.com/c/p4ieIm1R/91-1779-2026-projeto-de-constru%C3%A7%C3%A3o-v-v-67a" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+    </div>
+
+    <div class="trdep-col">
+      <h3 class="trdep-h orange">🔧 Pendência exclusiva minha <span>7</span></h3>
+      <div class="trdep-item" onclick="trdepAbrir('1.337/2026')"><span class="trdep-num">1.337/2026</span><span class="trdep-nome">IB Posto Zona Norte — Croqui do lote</span><span class="trdep-badge trdep-badge-overdue">prazo 11/05 vencido</span><a class="trdep-link" href="https://trello.com/c/CZ6p4dOj/7-1337-2026-ib-posto-zona-norte-croqui-do-lote" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('95.747/2025')"><span class="trdep-num">95.747/2025</span><span class="trdep-nome">Cadastramento de IPTU - Aurus</span><a class="trdep-link" href="https://trello.com/c/BvTPiKYm/254-95747-2025-cadastramento-de-iptu-aurus" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('6.133/2025')"><span class="trdep-num">6.133/2025</span><span class="trdep-nome">Terras Altas SPE — LT 19 QD B3</span><a class="trdep-link" href="https://trello.com/c/wdELYTmn/73-6133-2025-terras-altas-spe-constru%C3%A7%C3%A3o-lt-19-qd-b3" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('6.134/2025')"><span class="trdep-num">6.134/2025</span><span class="trdep-nome">Terras Altas SPE — LT 33 QD B3</span><a class="trdep-link" href="https://trello.com/c/AjTDk1cq/72-6134-2025-terras-altas-spe-constru%C3%A7%C3%A3o-lt-33-qd-b3" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('483/2026')"><span class="trdep-num">483/2026</span><span class="trdep-nome">Modificação Aprovado Paulo Kleber São Lucas 12G</span><a class="trdep-link" href="https://trello.com/c/kMtYshTJ/23-483-2026-modifica%C3%A7%C3%A3o-projeto-aprovado-paulo-kleber-sao-lucas-12g" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('2.078/2026')"><span class="trdep-num">2.078/2026</span><span class="trdep-nome">Portaria Spinaville II Jaque Bonjour</span><span class="trdep-badge trdep-badge-overdue">prazo 17/08 vencido</span><a class="trdep-link" href="https://trello.com/c/fuTNbYQc/171-2078-2026-portaria-spinaville-ii-jaque-bonjour-aprova%C3%A7%C3%A3o-de-projeto" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('514/2026')"><span class="trdep-num">514/2026</span><span class="trdep-nome">Bruno — Construção</span><a class="trdep-link" href="https://trello.com/c/S19vq1JR/62-514-2026-bruno-constru%C3%A7%C3%A3o" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+    </div>
+
+    <div class="trdep-col">
+      <h3 class="trdep-h green">📤 Pronto p/ Gabi protocolar/devolver <span>0</span></h3>
+      <div class="trdep-empty">Nada nessa lista agora — tudo em dia ✅</div>
+    </div>
+
+    <div class="trdep-col">
+      <h3 class="trdep-h blue">🆕 Novos briefings (Gabi vai triar) <span>5</span></h3>
+      <div class="trdep-item" onclick="trdepAbrir('Edilson Miranda')"><span class="trdep-nome">Edilson Miranda e Eduardo — Geminadas e Galpão</span><a class="trdep-link" href="https://trello.com/c/mIkWVMqB/286-edilson-miranda-e-eduardo-casas-geminadas-e-galpao" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('3.182/2026')"><span class="trdep-num">3.182/2026</span><span class="trdep-nome">Informações Básicas - Tamboré</span><a class="trdep-link" href="https://trello.com/c/xj8KU2F8/264-projeto-arquitet%C3%B4nico-3182-2026-informa%C3%A7%C3%B5es-b%C3%A1sicas-tambor%C3%A9" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('Dani Omega')"><span class="trdep-nome">Dani Omega Galpão Pablo</span><a class="trdep-link" href="https://trello.com/c/CS1TWedE/307-dani-omega-galpao-pablo" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('Wagner Alphaville')"><span class="trdep-nome">Dani Arquiteta (Wagner Alphaville Projeto Legal)</span><a class="trdep-link" href="https://trello.com/c/5axhIkTQ/289-dani-arquiteta-wagner-alphaville-projeto-legal" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('Marco Portilho')"><span class="trdep-nome">Marco Portilho LT 23E Galpão (copiar)</span><a class="trdep-link" href="https://trello.com/c/4EttXW0W/319-marco-portilho-lt-23e-galp%C3%A3o-copiar" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+    </div>
+
+    <div class="trdep-col">
+      <h3 class="trdep-h purple">🔁 Jonathan entregou → revisar <span>2</span></h3>
+      <div class="trdep-item" onclick="trdepAbrir('1.780/2025')"><span class="trdep-num">1.780/2025</span><span class="trdep-nome">Leo Sleutjes Aurus — Prédio Santa Lolla LT 25E</span><a class="trdep-link" href="https://trello.com/c/KwRVV9JH/81-1780-2025-leo-sleutjes-aurus-constru%C3%A7%C3%A3o-pr%C3%A9dio-santa-lolla-8-und-lt-25e" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('3.740/2026')"><span class="trdep-num">3.740/2026</span><span class="trdep-nome">Renato 04 Geminadas</span><a class="trdep-link" href="https://trello.com/c/wXXftIm9/248-3740-2026-aprova%C3%A7%C3%A3o-de-projeto-de-constru%C3%A7%C3%A3o-renato-04-geminadas" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+    </div>
+
+    <div class="trdep-col">
+      <h3 class="trdep-h purple">✍️ Correção PJF (Suellen/Jonathan) <span>2</span></h3>
+      <div class="trdep-item" onclick="trdepAbrir('2.391/2026')"><span class="trdep-num">2.391/2026</span><span class="trdep-nome">Geraldo Guarino — Regularização</span><a class="trdep-link" href="https://trello.com/c/TZfTvfT6/204-2391-2026-geraldo-guarino-regulariza%C3%A7%C3%A3o" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+      <div class="trdep-item" onclick="trdepAbrir('4.244/2026')"><span class="trdep-num">4.244/2026</span><span class="trdep-nome">Aprovação de Projeto Alexsander</span><a class="trdep-link" href="https://trello.com/c/lbbOg330/229-4244-2026-aprova%C3%A7%C3%A3o-de-projeto-alexsander" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trello ↗</a></div>
+    </div>
+
+    <div class="trdep-col trdep-col-wide">
+      <h3 class="trdep-h gray">⏳ Aguardando cliente/terceiros <span>17</span></h3>
+      <div class="trdep-alert">⚠️ Um card está na coluna "Aguardando Cliente" mas tem a etiqueta <b>"Suellen CORRE AQUI! 🏃‍♀️"</b> — <span class="trdep-item" style="display:inline;cursor:pointer" onclick="trdepAbrir('128.645/2026')"><b>128.645/2026 — Geraldo Aurus — CNDA</b></span> (prazo 08/07, vencido). Parece que a ação é sua, não do cliente — vale conferir com a Gabi. <a class="trdep-link" href="https://trello.com/c/Mzr0aMmv/224-128645-2026-geraldo-aurus-cnda" target="_blank" rel="noopener">Trello ↗</a></div>
+      <div class="trdep-collapsed-list">Os outros 16 cards dessa coluna são pendências de cliente/prefeitura (fora do seu controle direto) — <a href="https://trello.com/b/2iNie8kl/1doc-an%C3%A1lises-de-projetos" target="_blank" rel="noopener">ver a lista completa no Trello ↗</a></div>
+    </div>
+
+  </div>
+</div>
+<script>
+function trdepAbrir(termo){
+  var b=document.getElementById('busca');
+  if(!b)return;
+  b.value=termo;
+  if(typeof filtrar==='function'){filtrar();}
+  b.scrollIntoView({behavior:'smooth',block:'center'});
+}
+</script>
+
 <div class="stats" id="stats-bar">
   <span class="chip ctot" onclick="limpar()" id="chip-tot">📋 Total: 1849</span>
   <span class="chip" style="background:#16a085" onclick="toggleHoje(this)" id="chip-hoje">📅 Tramitado Hoje: 0</span>
