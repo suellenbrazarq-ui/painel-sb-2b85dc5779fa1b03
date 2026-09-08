@@ -376,7 +376,7 @@ footer b{color:#c9a96e}
     <h1>Suellen Braz</h1>
     <p class="hd-contact">Arquiteta e Urbanista · CAU A278477-7 · Juiz de Fora, MG</p>
     <p class="hd-contact">arq.suellenbraz@gmail.com · (32) 98809-9704 · @arq.suellenbraz</p>
-    <p>Painel de Processos 1Doc · Gerado em 08/09/2026 12:31</p>
+    <p>Painel de Processos 1Doc · Gerado em 08/09/2026 12:55</p>
   </div>
   <div class="hd-right">
     <span class="save-info"><span class="save-dot"></span>Alterações salvas no navegador</span>
@@ -397,6 +397,7 @@ footer b{color:#c9a96e}
 <div id="view-processos">
 <div class="stats" id="stats-bar">
   <span class="chip ctot" onclick="limpar()" id="chip-tot" data-chipkey="tot">📋 Total: 1914</span>
+  <span class="chip" id="chip-sem-debito" data-chipkey="sem-debito" data-tipogrupo-toggle="Emissão de Débito/DAM" style="background:#7a5510" onclick="toggleTipo('Emissão de Débito/DAM')" title="Clique pra ocultar/mostrar os processos de Emissão de Débito/DAM (mesmo efeito do chip na barra Tipo de processo)">🧮 Total sem Débito: 1615</span>
   <span class="chip" style="background:#16a085" onclick="toggleHoje(this)" id="chip-hoje" data-chipkey="hoje">📅 Hoje: 6</span>
   <span class="chip cp" onclick="toggleStatus('PENDENTE',this)" id="chip-p" data-chipkey="p" data-status="PENDENTE" title="Clique pra mostrar só este status. Clique de novo pra mostrar todos.">🔴 Pendentes: 10</span>
   <span class="chip cx" onclick="toggleStatus('AGUARDANDO_CLIENTE',this)" id="chip-x" data-chipkey="x" data-status="AGUARDANDO_CLIENTE" title="Clique pra mostrar só este status. Clique de novo pra mostrar todos.">🟠 Aguard. Cliente: 9</span>
@@ -422,8 +423,8 @@ footer b{color:#c9a96e}
 </div>
 <div class="stats" id="stats-bar-tipo" style="margin-top:-6px">
   <span style="font-size:11px;color:#999;align-self:center;margin-right:2px">Tipo de processo (clique pra ocultar/mostrar):</span>
-  <span class="chip ctipo" id="chip-tipo-Informa__es_B_sicas" data-chipkey="tipo-Informa__es_B_sicas" style="background:#7a5510" onclick="toggleTipo('Informações Básicas',this)" title="Tipo de PROCESSO">Informações Básicas: 301</span>
-  <span class="chip ctipo" id="chip-tipo-Emiss_o_de_D_bito_DAM" data-chipkey="tipo-Emiss_o_de_D_bito_DAM" style="background:#7a5510" onclick="toggleTipo('Emissão de Débito/DAM',this)" title="Tipo de PROCESSO">Emissão de Débito/DAM: 299</span>
+  <span class="chip ctipo" id="chip-tipo-Informa__es_B_sicas" data-chipkey="tipo-Informa__es_B_sicas" data-tipogrupo-toggle="Informações Básicas" style="background:#7a5510" onclick="toggleTipo('Informações Básicas')" title="Tipo de PROCESSO">Informações Básicas: 301</span>
+  <span class="chip ctipo" id="chip-tipo-Emiss_o_de_D_bito_DAM" data-chipkey="tipo-Emiss_o_de_D_bito_DAM" data-tipogrupo-toggle="Emissão de Débito/DAM" style="background:#7a5510" onclick="toggleTipo('Emissão de Débito/DAM')" title="Tipo de PROCESSO">Emissão de Débito/DAM: 299</span>
   <span style="margin-left:auto">
     <button class="btn-toggle-stats" id="btn-toggle-stats-tipo" onclick="toggleStatsTipo()" title="Esconder/mostrar essa linha inteira">▲ Ocultar</button>
   </span>
@@ -123070,9 +123071,11 @@ function toggleDoc(t, btn) {
   filtrar();
 }
 
-function toggleTipo(t, btn) {
-  if (tipoGrupoInativos.has(t)) { tipoGrupoInativos.delete(t); btn.classList.remove('inativo'); }
-  else { tipoGrupoInativos.add(t); btn.classList.add('inativo'); }
+function toggleTipo(t) {
+  if (tipoGrupoInativos.has(t)) tipoGrupoInativos.delete(t);
+  else tipoGrupoInativos.add(t);
+  const inativo = tipoGrupoInativos.has(t);
+  document.querySelectorAll('[data-tipogrupo-toggle="' + t + '"]').forEach(el => el.classList.toggle('inativo', inativo));
   filtrar();
 }
 
