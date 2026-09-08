@@ -376,7 +376,7 @@ footer b{color:#c9a96e}
     <h1>Suellen Braz</h1>
     <p class="hd-contact">Arquiteta e Urbanista · CAU A278477-7 · Juiz de Fora, MG</p>
     <p class="hd-contact">arq.suellenbraz@gmail.com · (32) 98809-9704 · @arq.suellenbraz</p>
-    <p>Painel de Processos 1Doc · Gerado em 08/09/2026 12:55</p>
+    <p>Painel de Processos 1Doc · Gerado em 08/09/2026 13:13</p>
   </div>
   <div class="hd-right">
     <span class="save-info"><span class="save-dot"></span>Alterações salvas no navegador</span>
@@ -397,7 +397,6 @@ footer b{color:#c9a96e}
 <div id="view-processos">
 <div class="stats" id="stats-bar">
   <span class="chip ctot" onclick="limpar()" id="chip-tot" data-chipkey="tot">📋 Total: 1914</span>
-  <span class="chip" id="chip-sem-debito" data-chipkey="sem-debito" data-tipogrupo-toggle="Emissão de Débito/DAM" style="background:#7a5510" onclick="toggleTipo('Emissão de Débito/DAM')" title="Clique pra ocultar/mostrar os processos de Emissão de Débito/DAM (mesmo efeito do chip na barra Tipo de processo)">🧮 Total sem Débito: 1615</span>
   <span class="chip" style="background:#16a085" onclick="toggleHoje(this)" id="chip-hoje" data-chipkey="hoje">📅 Hoje: 6</span>
   <span class="chip cp" onclick="toggleStatus('PENDENTE',this)" id="chip-p" data-chipkey="p" data-status="PENDENTE" title="Clique pra mostrar só este status. Clique de novo pra mostrar todos.">🔴 Pendentes: 10</span>
   <span class="chip cx" onclick="toggleStatus('AGUARDANDO_CLIENTE',this)" id="chip-x" data-chipkey="x" data-status="AGUARDANDO_CLIENTE" title="Clique pra mostrar só este status. Clique de novo pra mostrar todos.">🟠 Aguard. Cliente: 9</span>
@@ -419,14 +418,6 @@ footer b{color:#c9a96e}
   <span class="chip cdoc" id="chip-doc-Zeladoria" data-chipkey="doc-Zeladoria" style="background:#5d6d7e" onclick="toggleDoc('Zeladoria',this)" title="Tipo de DOCUMENTO (pasta no 1Doc)">🏙️ Zeladoria: 2</span>
   <span style="margin-left:auto">
     <button class="btn-toggle-stats" id="btn-toggle-stats-doc" onclick="toggleStatsDoc()" title="Esconder/mostrar essa linha inteira">▲ Ocultar</button>
-  </span>
-</div>
-<div class="stats" id="stats-bar-tipo" style="margin-top:-6px">
-  <span style="font-size:11px;color:#999;align-self:center;margin-right:2px">Tipo de processo (clique pra ocultar/mostrar):</span>
-  <span class="chip ctipo" id="chip-tipo-Informa__es_B_sicas" data-chipkey="tipo-Informa__es_B_sicas" data-tipogrupo-toggle="Informações Básicas" style="background:#7a5510" onclick="toggleTipo('Informações Básicas')" title="Tipo de PROCESSO">Informações Básicas: 301</span>
-  <span class="chip ctipo" id="chip-tipo-Emiss_o_de_D_bito_DAM" data-chipkey="tipo-Emiss_o_de_D_bito_DAM" data-tipogrupo-toggle="Emissão de Débito/DAM" style="background:#7a5510" onclick="toggleTipo('Emissão de Débito/DAM')" title="Tipo de PROCESSO">Emissão de Débito/DAM: 299</span>
-  <span style="margin-left:auto">
-    <button class="btn-toggle-stats" id="btn-toggle-stats-tipo" onclick="toggleStatsTipo()" title="Esconder/mostrar essa linha inteira">▲ Ocultar</button>
   </span>
 </div>
 
@@ -122691,7 +122682,6 @@ function abrirTodosVisiveis() {
 let alteracoes = {};
 let statusInativos = new Set();
 let docInativos = new Set();
-let tipoGrupoInativos = new Set();
 let ha = false;
 let ordemAtual = 'data';
 
@@ -122702,13 +122692,11 @@ function semAcento(s) {
 function empilharSticky() {
   const statsBar = document.getElementById('stats-bar');
   const docBar = document.getElementById('stats-bar-doc');
-  const tipoBar = document.getElementById('stats-bar-tipo');
   const filtros = document.querySelector('.filtros');
   if (statsBar) statsBar.style.top = '0px';
-  let acumulado = statsBar ? statsBar.offsetHeight : 0;
-  if (docBar) { docBar.style.position = 'sticky'; docBar.style.top = acumulado + 'px'; acumulado += docBar.offsetHeight; }
-  if (tipoBar) { tipoBar.style.position = 'sticky'; tipoBar.style.top = acumulado + 'px'; acumulado += tipoBar.offsetHeight; }
-  if (filtros) filtros.style.top = acumulado + 'px';
+  if (docBar) docBar.style.position = 'sticky';
+  if (docBar && statsBar) docBar.style.top = statsBar.offsetHeight + 'px';
+  if (filtros && docBar) filtros.style.top = (statsBar ? statsBar.offsetHeight : 0) + docBar.offsetHeight + 'px';
 }
 window.addEventListener('resize', empilharSticky);
 
@@ -122730,15 +122718,6 @@ function toggleStatsDoc() {
   const oculto = docBar.classList.toggle('oculto');
   if (btn) btn.textContent = oculto ? '▼ Mostrar' : '▲ Ocultar';
   localStorage.setItem('autogestao_sb_statsdoc_oculto', oculto ? '1' : '0');
-  empilharSticky();
-}
-
-function toggleStatsTipo() {
-  const tipoBar = document.getElementById('stats-bar-tipo');
-  const btn = document.getElementById('btn-toggle-stats-tipo');
-  const oculto = tipoBar.classList.toggle('oculto');
-  if (btn) btn.textContent = oculto ? '▼ Mostrar' : '▲ Ocultar';
-  localStorage.setItem('autogestao_sb_statstipo_oculto', oculto ? '1' : '0');
   empilharSticky();
 }
 
@@ -122871,12 +122850,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const btnDoc = document.getElementById('btn-toggle-stats-doc');
     if (docBar) docBar.classList.add('oculto');
     if (btnDoc) btnDoc.textContent = '▼ Mostrar';
-  }
-  if (localStorage.getItem('autogestao_sb_statstipo_oculto') === '1') {
-    const tipoBar = document.getElementById('stats-bar-tipo');
-    const btnTipo = document.getElementById('btn-toggle-stats-tipo');
-    if (tipoBar) tipoBar.classList.add('oculto');
-    if (btnTipo) btnTipo.textContent = '▼ Mostrar';
   }
   empilharSticky();
   Object.entries(alteracoes).forEach(([num, alt]) => {
@@ -123045,12 +123018,11 @@ function filtrar() {
     let statusOk = !statusInativos.has(statusCard);
     const docOk = !docInativos.has(card.dataset.tipodoc);
     const tipoOk = !tipo || card.dataset.tipoGrupo === tipo;
-    const tipoChipOk = !tipoGrupoInativos.has(card.dataset.tipoGrupo);
     const rtOk = !rt || semAcento(card.dataset.rt).includes(rt) || semAcento(card.dataset.pessoaManual||'').includes(rt) || semAcento(card.dataset.pessoaEnvolvida||'').includes(rt);
     const qOk = !q || semAcento(card.dataset.text).includes(q);
     const anoOk = !ano || card.dataset.ano.includes(ano);
     const hojeOk = !ha || card.dataset.hoje === HOJE_GERACAO;
-    const ok = docOk && tipoOk && tipoChipOk && rtOk && qOk && anoOk && hojeOk && (ha || statusOk);
+    const ok = docOk && tipoOk && rtOk && qOk && anoOk && hojeOk && (ha || statusOk);
     card.style.display = ok ? '' : 'none';
     if (ok) n++;
   });
@@ -123068,14 +123040,6 @@ function toggleHoje(btn) {
 function toggleDoc(t, btn) {
   if (docInativos.has(t)) { docInativos.delete(t); btn.classList.remove('inativo'); }
   else { docInativos.add(t); btn.classList.add('inativo'); }
-  filtrar();
-}
-
-function toggleTipo(t) {
-  if (tipoGrupoInativos.has(t)) tipoGrupoInativos.delete(t);
-  else tipoGrupoInativos.add(t);
-  const inativo = tipoGrupoInativos.has(t);
-  document.querySelectorAll('[data-tipogrupo-toggle="' + t + '"]').forEach(el => el.classList.toggle('inativo', inativo));
   filtrar();
 }
 
@@ -123151,7 +123115,6 @@ function atualizarSetas() {
 function limpar() {
   statusInativos.clear();
   docInativos.clear();
-  tipoGrupoInativos.clear();
   ha = false;
   document.getElementById('busca').value = '';
   document.getElementById('frt').value = '';
