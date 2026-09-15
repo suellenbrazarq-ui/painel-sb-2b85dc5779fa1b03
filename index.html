@@ -184,7 +184,8 @@ footer b{color:#c9a96e}
 .receber-aviso{font-size:10px;color:#999;font-style:italic;margin:4px 0 0}
 .bloco-valores.oculto{display:none!important}
 .sem-valor{color:#ccc}
-.saldo-quitado{color:#c2185b;background:#fce4ec;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700}
+.saldo-quitado{color:#ccc}
+.saldo-aberto{color:#e57373;font-weight:700}
 .tag-manual{font-size:9px;cursor:help}
 .receber-pills{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
 .pill{padding:2px 8px;border-radius:99px;border:1px solid #ddd;background:#fff;font-size:9px;font-weight:700;letter-spacing:.2px;cursor:pointer;color:#888;white-space:nowrap;text-transform:none}
@@ -381,7 +382,7 @@ footer b{color:#c9a96e}
     <h1>Suellen Braz</h1>
     <p class="hd-contact">Arquiteta e Urbanista · CAU A278477-7 · Juiz de Fora, MG</p>
     <p class="hd-contact">arq.suellenbraz@gmail.com · (32) 98809-9704 · @arq.suellenbraz</p>
-    <p>Painel de Processos 1Doc · Gerado em 15/09/2026 15:23</p>
+    <p>Painel de Processos 1Doc · Gerado em 15/09/2026 15:31</p>
   </div>
   <div class="hd-right">
     <span class="save-info"><span class="save-dot"></span>Alterações salvas no navegador</span>
@@ -122302,21 +122303,27 @@ function renderTabelaProcessosCliente(i) {
       let colValor, colPago, colSaldo;
       // Pedido dela em 15/09/2026: quando o saldo é R$0,00 porque já foi
       // TOTALMENTE pago (não porque falta valor cadastrado), mostrar um
-      // traço rosa claro em vez de "R$ 0,00" — o zero em dinheiro parecia
+      // traço simples/transparente (igual o "sem-valor" já usado nessa
+      // mesma tabela) em vez de "R$ 0,00" — o zero em dinheiro parecia
       // "tenho a receber R$0", confundindo com "quitado, nada a receber".
+      // Quando AINDA tem saldo em aberto, destaca em vermelho bem claro
+      // pra ela bater o olho e ver quanto falta receber.
       if (p.valorManual !== null && p.valorManual !== undefined) {
         const v = parseFloat(p.valorManual) || 0;
         const pg = parseFloat(p.pagoManual) || 0;
         const sd = v - pg;
         colValor = fmtMoeda(v) + ' <span class="tag-manual" title="Valor informado manualmente, ainda não está em A Receber">✏️</span>';
         colPago = fmtMoeda(pg);
-        colSaldo = (v > 0 && sd <= 0) ? '<span class="saldo-quitado" title="Quitado">—</span>' : fmtMoeda(sd);
+        colSaldo = (v > 0 && sd <= 0) ? '<span class="saldo-quitado" title="Quitado">—</span>'
+          : (sd > 0) ? '<span class="saldo-aberto">' + fmtMoeda(sd) + '</span>'
+          : fmtMoeda(sd);
       } else {
         const rExato = acharReceberExato(p.numero);
         colValor = rExato ? fmtMoeda(rExato.valor) : '<span class="sem-valor">—</span>';
         colPago = rExato ? fmtMoeda(rExato.pago) : '<span class="sem-valor">—</span>';
         colSaldo = !rExato ? '<span class="sem-valor">—</span>'
           : (rExato.valor > 0 && rExato.saldo <= 0) ? '<span class="saldo-quitado" title="Quitado">—</span>'
+          : (rExato.saldo > 0) ? '<span class="saldo-aberto">' + fmtMoeda(rExato.saldo) + '</span>'
           : fmtMoeda(rExato.saldo);
       }
       return '<tr><td class="pnum">' + p.numero + '</td><td>' + p.tipo + '</td><td><span class="pill-sit" style="background:' +
