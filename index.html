@@ -178,6 +178,12 @@ footer b{color:#c9a96e}
 .receber-grupo-n{color:#aaa;font-weight:400;text-transform:none}
 .receber-total-geral{margin-top:6px}
 .receber-total-geral .receber-total-row td{border-top:2px solid #1b3a5c;color:#1b3a5c}
+.receber-resumo{margin-top:6px}
+.receber-resumo-linha{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:12px;gap:12px}
+.receber-resumo-tipo{font-weight:700;color:#333}
+.receber-resumo-valores{color:#888;font-size:11px;white-space:nowrap}
+.receber-resumo-total{border-top:2px solid #1b3a5c;border-bottom:none;margin-top:4px;padding-top:8px}
+.receber-resumo-total .receber-resumo-tipo{color:#1b3a5c;text-transform:uppercase;letter-spacing:.3px;font-size:11px}
 .processos-titulo{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;margin:16px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .processos-controles{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
 .processos-controles select{border:1px solid #ddd;border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer}
@@ -397,7 +403,7 @@ footer b{color:#c9a96e}
     <h1>Suellen Braz</h1>
     <p class="hd-contact">Arquiteta e Urbanista · CAU A278477-7 · Juiz de Fora, MG</p>
     <p class="hd-contact">arq.suellenbraz@gmail.com · (32) 98809-9704 · @arq.suellenbraz</p>
-    <p>Painel de Processos 1Doc · Gerado em 16/09/2026 14:08</p>
+    <p>Painel de Processos 1Doc · Gerado em 16/09/2026 14:13</p>
   </div>
   <div class="hd-right">
     <span class="save-info"><span class="save-dot"></span>Alterações salvas no navegador</span>
@@ -122533,13 +122539,13 @@ function toggleClienteDetalhe(i) {
     html += '<p class="receber-aviso">As colunas Valor/Pago/Saldo só aparecem quando o número do processo está escrito explicitamente no campo "Protocolo" do lançamento em A Receber — nos outros casos (marcados com —) o valor está lá embaixo, agrupado por serviço, não dá pra saber a fatia exata de cada processo.</p>';
 
     html += '<div class="bloco-valores" id="valores-' + i + '">';
-    html += '<div class="processos-titulo processos-titulo-receber">💰 Cobrança (A Receber)</div>';
+    html += '<div class="processos-titulo processos-titulo-receber">💰 Cobrança (A Receber) — resumo</div>';
     if (linhas.length) {
-      html += '<p class="receber-aviso">Esses valores são por serviço/lançamento na sua planilha, não por processo individual — um lançamento pode cobrir vários protocolos juntos (por isso não tem coluna de valor na tabela de processos acima). Agrupado por tipo, igual na sua planilha A Receber.</p>';
-      // Agrupa por 'tipo' (Projeto, Regularização, Usucapião, Cartório...) —
-      // mesma organização da planilha A_Receber_SuellenBraz que ela usa por
-      // fora do painel. Cada grupo tem sua própria tabela + subtotal, e o
-      // total geral fecha tudo embaixo.
+      // Pedido dela em 16/09/2026: a tabela detalhada linha-por-linha
+      // repetia o que já aparece na tabela de processos acima (mesmo
+      // protocolo, mesmo valor) e ficava bagunçada pra imprimir. Agora só
+      // um resumo por TIPO (ex: Análise, DECEA) com o saldo em aberto de
+      // cada um, mais um total geral sempre visível no final.
       const grupos = {};
       linhas.forEach(r => {
         const t = r.tipo || 'Outro';
@@ -122547,22 +122553,22 @@ function toggleClienteDetalhe(i) {
         grupos[t].push(r);
       });
       let svGeral = 0, spGeral = 0, ssGeral = 0;
+      html += '<div class="receber-resumo">';
       Object.keys(grupos).sort().forEach(tipo => {
         const ls = grupos[tipo];
         let sv = 0, sp = 0, ss = 0;
         ls.forEach(r => { sv += parseFloat(r.valor) || 0; sp += parseFloat(r.pago) || 0; ss += parseFloat(r.saldo) || 0; });
         svGeral += sv; spGeral += sp; ssGeral += ss;
-        html += '<div class="receber-grupo-titulo">' + tipo + ' <span class="receber-grupo-n">(' + ls.length + ')</span></div>';
-        html += '<table class="receber-tabela"><thead><tr><th>Descrição</th><th>Status</th><th>Valor</th><th>Pago</th><th>Saldo</th></tr></thead><tbody>' +
-          ls.map(r => '<tr><td>' + r.cliente + (r.protocolo ? ' <span style="color:#aaa">(' + r.protocolo + ')</span>' : '') + '</td><td>' + r.status + '</td><td>' + fmtMoeda(r.valor) + '</td><td>' + fmtMoeda(r.pago) + '</td><td>' + fmtMoeda(r.saldo) + '</td></tr>').join('') +
-          '<tr class="receber-total-row"><td colspan="2">Subtotal</td><td>' + fmtMoeda(sv) + '</td><td>' + fmtMoeda(sp) + '</td><td>' + fmtMoeda(ss) + '</td></tr>' +
-          '</tbody></table>';
+        html += '<div class="receber-resumo-linha">' +
+          '<span class="receber-resumo-tipo">' + tipo + ' <span class="receber-grupo-n">(' + ls.length + ')</span></span>' +
+          '<span class="receber-resumo-valores">contratado ' + fmtMoeda(sv) + ' · pago ' + fmtMoeda(sp) + ' · <b class="' + (ss > 0 ? 'saldo-aberto' : 'saldo-quitado') + '">' + (ss > 0 ? fmtMoeda(ss) : 'quitado') + '</b></span>' +
+          '</div>';
       });
-      if (Object.keys(grupos).length > 1) {
-        html += '<table class="receber-tabela receber-total-geral"><tbody>' +
-          '<tr class="receber-total-row"><td colspan="2">Total geral</td><td>' + fmtMoeda(svGeral) + '</td><td>' + fmtMoeda(spGeral) + '</td><td>' + fmtMoeda(ssGeral) + '</td></tr>' +
-          '</tbody></table>';
-      }
+      html += '<div class="receber-resumo-linha receber-resumo-total">' +
+        '<span class="receber-resumo-tipo">Total</span>' +
+        '<span class="receber-resumo-valores">contratado ' + fmtMoeda(svGeral) + ' · pago ' + fmtMoeda(spGeral) + ' · <b class="' + (ssGeral > 0 ? 'saldo-aberto' : 'saldo-quitado') + '">' + (ssGeral > 0 ? fmtMoeda(ssGeral) : 'quitado') + '</b></span>' +
+        '</div>';
+      html += '</div>';
     } else {
       html += '<p class="receber-vazio">Nenhum lançamento encontrado em "A Receber" com esse nome — pode não ter sido cadastrado lá ainda, ou o nome está escrito diferente.</p>';
     }
