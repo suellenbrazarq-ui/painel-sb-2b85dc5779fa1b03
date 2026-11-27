@@ -47,3 +47,12 @@
 
 ## Limitações conhecidas
 - Não tenho acesso a Telegram, WhatsApp (enviar mensagens) nem a um "bot" separado — só ao Google Agenda dela via essas ferramentas. Lembretes de terceiros (ex. Sidney) só dá pra fazer adicionando o e-mail da pessoa como convidado do evento.
+- Não tenho acesso ao Google Tarefas, e não tenho ferramenta pra editar células de planilha depois de criada — só criar/ler. Por isso, tarefas vão num Google Doc, não planilha nem Tarefas.
+
+## Tarefas vs. Agendamento
+- Doc de tarefas: **"Tarefas — Responder Clientes"** no Google Drive dela (fileId: `1n4-QcaJ4-kWaMltFSS2AgGTCzZoi7M2fko8fdFv6TOQ`).
+- Quando ela disser **"tarefa: ..."** ou **"tenho que responder ..."** sem data → é TAREFA: adicionar como item numerado nesse Doc (via `Google_Docs__update_doc`, `insertText`/`replaceAllText`). Não entra no calendário.
+- Quando ela disser **"marca na agenda ..."** ou der dia e hora → é AGENDAMENTO: vai pro Google Agenda (Pessoal ou principal, conforme as regras de calendário acima).
+- Quando ela der data pra uma tarefa já existente (ex. "aquela do fulano, faço sexta") → criar o evento na agenda com essa data e **remover** o item do Doc de tarefas.
+- Quando ela pedir **"minhas tarefas"** → ler o Doc e responder a lista numerada, uma linha por item (sem reler o calendário).
+- Quando ela disser **"feito N"** → remover o item N da lista do Doc e renumerar os que restaram.
